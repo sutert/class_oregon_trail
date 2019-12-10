@@ -46,7 +46,7 @@ class Wagon {
         return false
     }
 
-    totalFood () {
+    totalFood() {
         let results = 0;
         for (let i = 0; i < this.passengers.length; i++) {
             results = results + this.passengers[i].food
@@ -78,59 +78,56 @@ class Wagon {
 
 // console.log(testWagon.totalFood())
 
-
-function Doctor(name) {
-    Traveler.call(this, name)
+class Doctor extends Traveler{
+ constructor(name){
+     super(name)
+ }
+ heal (traveler) {
+     traveler.isHealthy = true;
+ }
 }
 
-Doctor.prototype = Object.create(Traveler.prototype);
-Doctor.prototype.constructor = Doctor;
 
-Doctor.prototype.heal = function (traveler) {
-    traveler.isHealthy = true;
-}
+// let testDoctor = new Doctor("test")
+// testDoctor.heal(testTraveler);
+// console.log(testTraveler)
 
-let testDoctor = new Doctor("test")
-testDoctor.heal(testTraveler);
-console.log(testTraveler)
+class Hunter extends Traveler{
+    constructor(name){
+        super(name);
+        this.food =this.food =2;
+    }
+    hunt () {
+       this.food = this.food + 5;
+    }
+    eat () {
+       if (this.food > 2) {
+           this.food = this.food - 2;
+       } else {
+           this.food = 0;
+           this.isHealthy = false;
+       }
+    }
 
-function Hunter(name) {
-    Traveler.call(this, name)
-    this.food = 2;
-}
-
-Hunter.prototype = Object.create(Traveler.prototype);
-Hunter.prototype.constructor = Hunter;
-
-Hunter.prototype.hunt = function () {
-    this.food = this.food + 5;
-}
-
-let testHunter = new Hunter("test")
-testHunter.hunt()
-console.log(testHunter)
-
-
-Hunter.prototype.eat = function () {
-    if (this.food > 2) {
-        this.food = this.food - 2;
-    } else {
-        this.food = 0;
-        this.isHealthy = false;
+    giveFood (traveler, numOfFoodUnits) {
+        if (this.food >= numOfFoodUnits) {
+            this.food = this.food - numOfFoodUnits;
+            traveler.food = traveler.food + numOfFoodUnits
+        }
     }
 }
-testHunter.eat()
-testHunter.eat()
-testHunter.eat()
-testHunter.eat()
-console.log(testHunter)
 
-Hunter.prototype.giveFood = function (traveler, numOfFoodUnits) {
-    if (this.food >= numOfFoodUnits) {
-        this.food = this.food - numOfFoodUnits;
-        traveler.food = traveler.food + numOfFoodUnits
-    }
-}
+
+// let testHunter = new Hunter("test")
+// testHunter.hunt()
+// console.log(testHunter)
+
+
+// testHunter.eat()
+// testHunter.eat()
+// testHunter.eat()
+// testHunter.eat()
+// console.log(testHunter)
 
 // Create a wagon that can hold 4 people
 let wagon = new Wagon(4);
